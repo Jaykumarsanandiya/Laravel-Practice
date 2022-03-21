@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Users;
 use App\Http\Controllers\Login;
+use App\Http\Controllers\memberController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -85,3 +86,34 @@ Route::view("/flashsession/addMember" ,"flashsession.addMember" );
 
 Route::post("/flashsession/addMember" , [Users::class , "sessionFlashAddMember"]);
 
+//member  Database list fetch "video:25"
+
+Route::get("/database/fetch" , [memberController::class , "list"]);
+Route::view("/database/add" , "memberDatabase.add");
+Route::post("/database/add" , [memberController::class , "add"]);
+Route::get("/database/delete/{id}" , [memberController::class , "delete"]);
+Route::get("/database/editShow/{id}" , [memberController::class , "showData"]);
+Route::post("/database/edit" , [memberController::class , "edit"]);
+
+//Query Builder
+
+Route::get("/queryBuilder" , [Users::class , "dbOperations"]);
+
+//aggregate DB
+
+Route::get("/queryBuilderAggregate" , [Users::class , "AggregateDB"]);
+
+//Join
+Route::get("/join" , [Users::class , 'join']);
+
+//one to one relation
+
+Route::get("/OneToOne" , [memberController::class , 'OneToOne']);
+Route::get("/OneToOneInverse" , [memberController::class , 'OneToOneInverse']);
+//one to Many relation
+
+Route::get("/OneToMany" , [memberController::class, 'OneToMany']);
+Route::get("/OneToManyInverse" , [memberController::class, 'OneToManyInverse']);
+
+
+// api : see in route -> api

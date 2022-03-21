@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +52,32 @@ class Users extends Controller
     //flash session
 
     function sessionFlashAddMember(Request $request){
-      $data =   $request->session()->flash('flashusername');
+        $data = $request->input('flashusername') ;
+      
+        $request->session()->flash('flashusername', $data);
+   
       return redirect('/flashsession/addMember');
+    }
+
+    // query Builder
+    function dbOperations(){
+        return DB::table("members")->get();
+        // return Member::all();
+    }
+
+    //Aggregate  Methods
+    function AggregateDB(){
+      // DB::table("members")->where('name', 'Ajay')->get("email");
+      $minID = DB::table("members")->min("id");
+      $maxID = DB::table("members")->max("id");
+
+      return "Min ID is ". $minID . " and Max ID is ". $maxID ;
+    }
+
+    function join(){
+       return DB::table('members')
+        ->join('company' , 'members.id','=','company.employee_id' ,'right outer')
+        //->where('company.name','simform')
+        ->get();
     }
 }
