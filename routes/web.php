@@ -3,8 +3,12 @@
 use App\Http\Controllers\Users;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\memberController;
+use App\Http\Controllers\TestsEnrollmentController;
+use App\Http\Controllers\URLGenerationController;
+use App\Models\User;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request as URL_request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -117,3 +121,32 @@ Route::get("/OneToManyInverse" , [memberController::class, 'OneToManyInverse']);
 
 
 // api : see in route -> api
+
+
+//cache
+Route::get("/cache" , [Users::class, 'cacheLearn']);
+
+
+//URL generation
+
+Route::get('/home', [URLGenerationController::class ,'home'])->name('home');
+
+Route::get('/about/{slug?}',[URLGenerationController::class ,'about'])->name('about-us');
+
+Route::get('/posts/{post}/comments/{comment}' , function($post ,$comment){
+     return "post";
+})->name("post.comment");
+
+Route::get('/secret' , function(URL_request $request){
+
+  if (! $request->hasValidSignature()) {
+    abort(401);
+}
+
+  return "This is secret Message" ;
+})->name('secret');
+
+
+//Notification
+
+Route::get('/send-notification' , [TestsEnrollmentController::class , "sendNotification"]);
