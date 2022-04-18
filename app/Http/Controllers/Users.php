@@ -106,12 +106,7 @@ class Users extends Controller
         
         
         
-        
-        
-        
-        
-        
-        
+       
         
         
         
@@ -120,20 +115,20 @@ class Users extends Controller
         
         //  ********************************* Cache Facades ***************************
         
-        // Cache::put('email','admin@gmail.com' , 20);
-        // Cache::put("roll",101);
-        // Cache::forever("product", "laptop");
+        Cache::put('email','admin@gmail.com' , 20);
+        Cache::put("roll",101);
+        Cache::forever("product", "laptop");
 
         // dd(Cache::get('email'));
-        // $product = Cache::get("product");
+        $product = Cache::get("product");
         // dd($product);
-        // if(Cache::has("product")){
-        //     dd("YES");
-        // }else{
-        //     dd("No");
-        // }
+        if(Cache::has("product")){
+            dd("YES");
+        }else{
+            dd("No");
+        }
 
-        // Cache::flush();
-        // return view("cache.cache",["data" =>$product]);
+        Cache::flush();
+        return view("cache.cache",["data" =>$product]);
     }
 }

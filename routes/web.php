@@ -1,14 +1,21 @@
 <?php
 
+use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\Users;
 use App\Http\Controllers\Login;
 use App\Http\Controllers\memberController;
 use App\Http\Controllers\TestsEnrollmentController;
 use App\Http\Controllers\URLGenerationController;
 use App\Models\User;
+use App\Postcard;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request as URL_request;
+use Illuminate\Support\Facades\Redis;
+use App\PostCardSendingService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +29,7 @@ use Illuminate\Http\Request as URL_request;
 
 Route::get('/', function ($name = "default") {
 
+    Log::stack(['papertrail'])->debug('Pappertrail Log Activated');
     return view('welcome', ['jaya' => $name]);
 });
 
@@ -150,3 +158,39 @@ Route::get('/secret' , function(URL_request $request){
 //Notification
 
 Route::get('/send-notification' , [TestsEnrollmentController::class , "sendNotification"]);
+
+
+//Redis
+Route::get("/redis" , function(){
+  print_r(app()->make('redis'));
+  // $redis =   Redis::connection();
+  // Redis::set('name','jay');
+  // echo $redis->get('name');
+});
+
+//Facades Coder's Tape
+
+Route::get('/postcards',function(){
+    $postcardService = new PostCardSendingService('India',20,100);
+    $postcardService->hello("Hello Facades Learning","test@test.com");
+});
+
+Route::get('/facades',function(){
+  Postcard::hello(123,"abc@gmail.com");
+});
+
+
+//Exception Handling
+
+Route::get('/exception-handle' , [DeviceController::class,"index"]);
+
+
+//Mutators,Accessors & Casting
+
+Route::get('/accessor' ,[DeviceController::class,"accessor"]);
+
+Route::get('/mutator' ,[DeviceController::class,"mutator"]);
+
+//Soft delete 
+
+Route::get("/softdelete" , [DeviceController::class,"softdelete"]);
